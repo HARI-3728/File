@@ -1,0 +1,108 @@
+<html lang="en">
+<head>
+	<title>Login</title>
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+		body {
+			font-family: 'Segoe UI', Arial, sans-serif;
+			background-color: #f4f6f8;
+			margin: 0;
+			min-height: 100vh;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		.con {
+			width: 320px;
+			padding: 40px 32px;
+			background-color: #ffffff;
+			border-radius: 12px;
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+		}
+		.con h1 {
+			text-align: center;
+			font-size: 24px;
+			color: #1a1a1a;
+			margin: 0 0 24px;
+		}
+		label {
+			display: block;
+			font-size: 13px;
+			font-weight: 600;
+			color: #555;
+			margin-bottom: 6px;
+		}
+		input {
+			width: 100%;
+			padding: 10px 12px;
+			margin-bottom: 18px;
+			border: 1px solid #ccc;
+			border-radius: 6px;
+			font-size: 14px;
+			transition: border-color 0.2s;
+		}
+		input:focus {
+			outline: none;
+			border-color: #4a90e2;
+			box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.15);
+		}
+		button {
+			width: 100%;
+			padding: 10px;
+			background-color: #4a90e2;
+			color: #fff;
+			border: none;
+			border-radius: 6px;
+			font-size: 15px;
+			font-weight: 600;
+			cursor: pointer;
+			transition: background-color 0.2s;
+		}
+		button:hover {
+			background-color: #3a7bc8;
+		}
+		#loginMessage {
+			text-align: center;
+			font-size: 13px;
+			color: #d9534f;
+			min-height: 16px;
+			margin: 12px 0 0;
+		}
+		.signup-link {
+			text-align: center;
+			margin-top: 16px;
+			font-size: 13px;
+		}
+		.signup-link a {
+			color: #4a90e2;
+			text-decoration: none;
+		}
+		.signup-link a:hover {
+			text-decoration: underline;
+		}
+	</style>
+</head>
+<body>
+	<div class="con">
+		<h1>Welcome Back</h1>
+		<form id="loginForm">
+			<label for="username">Id</label>
+			<input type="text" id="username" name="username" required>
+
+			<label for="password">Password</label>
+			<input type="password" id="password" name="password" autocomplete="current-password" required>
+
+			<button type="submit">Login</button>
+
+			<p id="loginMessage"></p>
+
+			<div class="signup-link">
+				Don't have an account? <a href="signup.html">Sign Up</a>
+			</div>
+		</form>
+	</div>
+	<script src="login.js"></script>
+</body>
+</html>
