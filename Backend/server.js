@@ -1,5 +1,5 @@
 require("dotenv").config({
-    path: __dirname + "/../.env"
+    path: __dirname + "/.env.example"
 });
 
 console.log("JWT SECRET:", process.env.JWT_SECRET);
