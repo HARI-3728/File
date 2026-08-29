@@ -1,5 +1,5 @@
 async function loadProfile() {
-    const response = await fetch("http://127.0.0.1:3000/profile", {
+    const response = await fetch("https://file-3-3d91.onrender.com/profile", {
         method: "GET",
         credentials: "include"
     });
@@ -27,7 +27,7 @@ document.getElementById("profileForm").addEventListener("submit", async function
     const message = document.getElementById("profileMessage");
     if(event.submitter.value=="update"){
         try {
-        const response = await fetch("http://127.0.0.1:3000/profile", {
+        const response = await fetch("https://file-3-3d91.onrender.com/profile", {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json"
@@ -47,7 +47,7 @@ document.getElementById("profileForm").addEventListener("submit", async function
     if(event.submitter.value=="delete"){
         if(confirm("Are You Deleting this Profile")){
             try{
-              const response = await fetch("http://127.0.0.1:3000/profile", {
+              const response = await fetch("https://file-3-3d91.onrender.com/profile", {
                 method: "DELETE",
                 credentials: "include"
             });
