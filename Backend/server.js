@@ -33,8 +33,12 @@ app.disable('x-powered-by');
 app.set('trust proxy', 1);
 app.use(helmet());
 app.use(cookieParser());
-app.use(cors({ origin: process.env.FRONTEND_ORIGIN.replace(/\/$/, ''), credentials: true }));
+app.use(cors({
+    origin: process.env.FRONTEND_ORIGIN,
+    credentials: true
+}));
 app.use(express.json({ limit: '10kb' }));
+app.use(express.urlencoded({ extended: false, limit: '10kb' }));
 
 const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
