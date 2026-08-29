@@ -13,7 +13,7 @@ const cors = require('cors');
 const app = express();
 app.use(cookieParser());
 app.use(cors({
-    origin: 'http://127.0.0.1:5500',
+    origin: 'https://file-lvhe.vercel.app/',
     credentials: true
 }));
 app.use(express.json());
@@ -159,6 +159,6 @@ app.delete("/profile", authenticateToken, async (req, res) => {
         });
     }
 });
-app.listen(3000, () => {
-    console.log(`Server running on http://localhost:3000`);
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
