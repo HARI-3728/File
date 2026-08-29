@@ -1,4 +1,10 @@
-require("dotenv").config();
+require("dotenv").config({
+    path: __dirname + "/.env"
+});
+
+console.log("MONGODB_URI configured:", !!process.env.MONGODB_URI);
+console.log("JWT_SECRET configured:", !!process.env.JWT_SECRET);
+console.log("FRONTEND_ORIGIN configured:", !!process.env.FRONTEND_ORIGIN);
 
 const express = require('express');
 const mongoose = require('mongoose');
@@ -11,18 +17,15 @@ const rateLimit = require('express-rate-limit');
 
 const app = express();
 const isProduction = process.env.NODE_ENV === "production";
-const port = Number(process.env.PORT) || 3000;
-const frontendOrigin = process.env.FRONTEND_ORIGIN;
-const mongoUri = process.env.MONGODB_URI;
-const jwtSecret = process.env.JWT_SECRET;
+const PORT = process.env.PORT || 5000;
 
-if (!mongoUri || !jwtSecret || !frontendOrigin) {
+if (!process.env.MONGODB_URI || !process.env.JWT_SECRET || !process.env.FRONTEND_ORIGIN) {
     throw new Error("MONGODB_URI, JWT_SECRET, and FRONTEND_ORIGIN must be configured");
 }
-if (isProduction && jwtSecret.length < 32) {
+if (isProduction && process.env.JWT_SECRET.length < 32) {
     throw new Error("JWT_SECRET must be at least 32 characters in production");
 }
-if (isProduction && (mongoUri.includes("127.0.0.1") || mongoUri.includes("localhost"))) {
+if (isProduction && (process.env.MONGODB_URI.includes("127.0.0.1") || process.env.MONGODB_URI.includes("localhost"))) {
     throw new Error("MONGODB_URI must point to a hosted database in production");
 }
 
@@ -30,7 +33,7 @@ app.disable('x-powered-by');
 app.set('trust proxy', 1);
 app.use(helmet());
 app.use(cookieParser());
-app.use(cors({ origin: frontendOrigin.replace(/\/$/, ''), credentials: true }));
+app.use(cors({ origin: process.env.FRONTEND_ORIGIN.replace(/\/$/, ''), credentials: true }));
 app.use(express.json({ limit: '10kb' }));
 
 const authLimiter = rateLimit({
@@ -43,7 +46,7 @@ const authLimiter = rateLimit({
 
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
 
-mongoose.connect(mongoUri).then(() => {
+mongoose.connect(process.env.MONGODB_URI).then(() => {
     console.log('MongoDB Connected');
 }).catch(err => console.error('MongoDB connection failed:', err));
 
@@ -82,7 +85,7 @@ app.post('/login', authLimiter, async (req, res) => {
         if (!student) return res.status(404).json({ message: 'Student not found' });
         if (!await encode.verify(student.psw, password)) return res.status(401).json({ message: 'Incorrect password' });
 
-        const token = jwt.sign({ userId: student._id, Id: student.Id }, jwtSecret, { expiresIn: "1h" });
+        const token = jwt.sign({ userId: student._id, Id: student.Id }, process.env.JWT_SECRET, { expiresIn: "1h" });
         res.cookie("token", token, {
             httpOnly: true,
             secure: isProduction,
@@ -100,7 +103,7 @@ function authenticateToken(req, res, next) {
     const token = req.cookies.token;
     if (!token) return res.status(401).json({ message: "Please login" });
     try {
-        req.user = jwt.verify(token, jwtSecret);
+        req.user = jwt.verify(token, process.env.JWT_SECRET);
         next();
     } catch {
         res.status(403).json({ message: "Invalid or expired token" });
@@ -145,4 +148,4 @@ app.delete("/profile", authenticateToken, async (req, res) => {
     }
 });
 
-app.listen(port, () => console.log(`Server running on port ${port}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
