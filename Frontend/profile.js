@@ -1,5 +1,5 @@
 async function loadProfile() {
-    const response = await fetch("https://file-3-3d91.onrender.com/profile", {
+    const response = await fetch("https://file-4-vza4.onrender.com//profile", {
         method: "GET",
         credentials: "include"
     });

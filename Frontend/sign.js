@@ -7,7 +7,7 @@ document.getElementById("profileForm").addEventListener("submit", async function
     };
     const message = document.getElementById("profileMessage");
     try {
-        const response = await fetch("https://file-3-3d91.onrender.com/submit", {
+        const response = await fetch("https://file-4-vza4.onrender.com/submit", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
