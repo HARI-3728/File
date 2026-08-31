@@ -56,8 +56,21 @@ mongoose.connect(process.env.MONGODB_URI).then(() => {
 
 const studentSchema = new mongoose.Schema({
     name: { type: String, required: true, trim: true, maxlength: 100 },
-    Id: { type: String, required: true, unique: true, trim: true, maxlength: 100 },
-    psw: { type: String, required: true }
+    Id: {
+        type: String,
+        required: true,
+        unique: true,
+        trim: true,
+        minlength: 5,
+        maxlength: 5,
+        match: [/^\d{2}[A-Za-z]\d{2}$/, 'ID must be 5 characters: first two digits, next a letter, last two digits']
+    },
+    psw: {
+        type: String,
+        required: true,
+        minlength: 6,
+        maxlength: 100
+    }
 });
 const hai = mongoose.model('Student', studentSchema, 'HAi(2)');
 
